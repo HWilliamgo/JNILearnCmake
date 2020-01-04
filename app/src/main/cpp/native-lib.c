@@ -1,13 +1,19 @@
 //
 // Created by HWilliam on 2019-12-20.
 //
+
+
 #include <jni.h>
 #include <stdio.h>
 #include <malloc.h>
 #include <android/log.h>
+#include "const.h"
+#include "libB.c"
+
+#define TAG "JNITEST"
+
 
 //定义TAG之后，我们可以在LogCat通过TAG过滤出NDK打印的日志
-#define TAG "JNITEST"
 // 定义info信息
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO,TAG,__VA_ARGS__)
 // 定义debug信息
@@ -52,14 +58,13 @@ JNIEXPORT jstring JNICALL
 Java_com_hwilliam_jnilearncmake_NDKTools_getStringFromCSync(JNIEnv *env, jclass clazz) {
     char *string = "abcdefg";
     jstring result = (*env)->NewStringUTF(env, string);
-    (*env)->DeleteLocalRef(env, result);
     return result;
 }
 
 JNIEXPORT void JNICALL
 Java_com_hwilliam_jnilearncmake_NDKTools_getStringFromCAsync(JNIEnv *env, jclass clazz) {
     //获取字符串
-    char *string = "123456789";
+    char *string = TAG_LIB_B;
     jstring result = (*env)->NewStringUTF(env, string);
     //获取要回调的java方法
     jmethodID onGetStringFromC = (*env)->GetStaticMethodID(env, clazz, "onGetStringFromC",
@@ -68,6 +73,12 @@ Java_com_hwilliam_jnilearncmake_NDKTools_getStringFromCAsync(JNIEnv *env, jclass
     (*env)->CallStaticVoidMethod(env, clazz, onGetStringFromC, result);
     //release
     (*env)->DeleteLocalRef(env, result);
-    jstring Object = "123";
-    (*env)->IsSameObject(env, Object, NULL);
+
+    //以下调用会出错：JNI DETECTED ERROR IN APPLICATION: use of deleted local reference 0x71
+//    jboolean isNull = (*env)->IsSameObject(env, result, NULL);
+//    if (isNull==1){
+//        LOGD("isNULL");
+//    } else{
+//        LOGD("is Not NULL");
+//    }
 }
