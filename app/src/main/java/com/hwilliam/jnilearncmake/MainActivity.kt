@@ -3,6 +3,7 @@ package com.hwilliam.jnilearncmake
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.LogUtils
+import com.example.lame.Mp3Encoder
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,5 +22,7 @@ class MainActivity : AppCompatActivity() {
         val syncStringResult = NDKTools.getStringFromCSync()
         LogUtils.d("syncStringResult=$syncStringResult")
         NDKTools.getStringFromCAsync()
+
+        Mp3Encoder.init()
     }
 }
