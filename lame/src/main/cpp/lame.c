@@ -13,6 +13,8 @@
 #include "libmp3lame/lame.h"
 // </editor-fold>
 
+#include "mp3Encoder.h"
+
 
 #define TAG "LAME"
 
@@ -25,7 +27,27 @@
 // 定义error信息
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR,TAG,__VA_ARGS__)
 
+
 JNIEXPORT void JNICALL
-Java_com_example_lame_Mp3Encoder_init(JNIEnv *env, jclass clazz) {
-    LOGD("init,version = %s", get_lame_version());
+Java_com_example_lame_Mp3Encoder_init(JNIEnv *env, jclass clazz, jstring pcm_file_path,
+                                      jstring mp3_file_path, jint sample_rate, jint channels,
+                                      jint bitrate) {
+    const char *pcmPath = (*env)->GetStringUTFChars(env, pcm_file_path, NULL);
+    const char *mp3Path = (*env)->GetStringUTFChars(env, mp3_file_path, NULL);
+    init(pcmPath, mp3Path, sample_rate, channels, bitrate);
+    (*env)->ReleaseStringUTFChars(env, pcm_file_path, pcmPath);
+    (*env)->ReleaseStringUTFChars(env, mp3_file_path, mp3Path);
+}
+
+
+JNIEXPORT void JNICALL
+Java_com_example_lame_Mp3Encoder_encode(JNIEnv *env, jclass clazz) {
+    LOGD("encode start");
+    encode();
+    LOGD("encode finish");
+}
+
+JNIEXPORT void JNICALL
+Java_com_example_lame_Mp3Encoder_destroy(JNIEnv *env, jclass clazz) {
+    destroy();
 }

@@ -10,5 +10,8 @@ public class Mp3Encoder {
         System.loadLibrary("lame");
     }
 
-    public native static void init();
+    public native static void init(String pcmFilePath, String mp3FilePath, int sampleRate, int channels, int bitrate);
+
+    public native static void encode();
+    public native static void destroy();
 }

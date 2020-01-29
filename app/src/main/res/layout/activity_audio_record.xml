@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AudioRecordActivity">
+
+    <Button
+        android:id="@+id/btn_audio_record_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始录音"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_audio_record_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="停止录音"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_audio_record_start" />
+
+    <Button
+        android:id="@+id/btn_audio_record_start_convert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始转换"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_audio_record_stop" />
+
+    <Button
+        android:id="@+id/btn_audio_record_play_pcm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="播放pcm文件"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_audio_record_start_convert" />
+
+    <Button
+        android:id="@+id/btn_audio_record_play_mp3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="播放mp3文件"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_audio_record_play_pcm" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
