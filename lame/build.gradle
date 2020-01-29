@@ -16,8 +16,8 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
         externalNativeBuild {
             cmake {
-                cppFlags ""
-//                cFlags "-DSTDC_HEADERS"
+//                cppFlags ""
+                cFlags "-DSTDC_HEADERS"
             }
         }
     }
