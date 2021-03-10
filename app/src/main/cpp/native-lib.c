@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <android/log.h>
+#include <string.h>
+#include <stdlib.h>
 #include "const.h"
 #include "libB.c"
 
@@ -81,4 +83,75 @@ Java_com_hwilliam_jnilearncmake_NDKTools_getStringFromCAsync(JNIEnv *env, jclass
 //    } else{
 //        LOGD("is Not NULL");
 //    }
+}
+
+int a() {
+    return 666;
+}
+
+JNIEXPORT jint JNICALL
+Java_com_hwilliam_jnilearncmake_NDKTools_testColideFunction(JNIEnv *env, jclass clazz) {
+    return a();
+}
+
+static int b(JNIEnv *env) {
+    int64_t ptr = (int64_t) (intptr_t) env;
+    char valuestr[22];
+    snprintf(valuestr, sizeof(valuestr), "%lld", ptr);
+
+    long long ptr2 = strtoll(valuestr, NULL, 10);
+    int *p2 = (intptr_t) ptr2;
+    LOGD("value of p2=%d", *p2);
+
+    double d = (double) (intptr_t) env;
+    JNIEnv *envptr = (JNIEnv *) (intptr_t) d;
+
+    return 1;
+}
+
+typedef struct Happy {
+    char *cptr;
+    int a;
+    long b;
+} Happy;
+
+JNIEXPORT jint JNICALL
+Java_com_hwilliam_jnilearncmake_NDKTools_testErrorFunction(JNIEnv *env, jclass clazz) {
+    int age = 25;
+    int *p = &age;
+
+    long long ptr = p;
+    char valuestr[22];
+    snprintf(valuestr, sizeof(valuestr), "%lld", ptr);
+    // not crash. maybe it will crash after the ptr is retrieved from valuestr.
+
+    // 可能是因为：指针变量前几位被操作系统打了tag，后面存到long long里面的时候，tag被擦除掉了，转回指针的时候被操作系统检查到了，就报错。
+
+    long long ptr2 = strtoll(valuestr, NULL, 10);
+    int *p2 = (intptr_t) ptr2;
+    LOGD("value of p2=%d", *p2);
+
+    Happy happy = {
+            .cptr="I am Happy",
+            .a=10,
+            .b=100,
+    };
+    Happy *hptr = &happy;
+    return b(env);
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_hwilliam_jnilearncmake_NDKToolsObject_testGetFiledFromSelf(JNIEnv *env, jobject thiz) {
+    jclass NDKToolsObject = (*env)->FindClass(env, "com/hwilliam/jnilearncmake/NDKToolsObject");
+    jfieldID jfieldId = (*env)->GetFieldID(env, NDKToolsObject, "paramA", "J");
+    if ((*env)->ExceptionCheck(env)) {
+        (*env)->ExceptionDescribe(env);
+        (*env)->ExceptionClear(env);
+    }
+    if (jfieldId == NULL) {
+        LOGD("jfieldId==NULL");
+        return 0;
+    }
+    jlong result = (*env)->GetLongField(env, thiz, jfieldId);
+    return result;
 }

@@ -1,2 +1,2 @@
-include ':app', ':lame'
+include ':app', ':lame', ':ffmpegprebuild', ':opensles'
 rootProject.name='JNILearnCMake'

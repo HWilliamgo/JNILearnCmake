@@ -30,6 +30,10 @@ public class NDKTools {
 
     public static native void getStringFromCAsync();
 
+    public static native int testColideFunction();
+
+    public static native int testErrorFunction();
+
     public static void onGetStringFromC(String dataFromC) {
         LogUtils.d(dataFromC);
     }
